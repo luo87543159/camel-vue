@@ -6,6 +6,8 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+/* Router Modules */
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -32,6 +34,17 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path*',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -44,7 +57,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/',
+    path: '',
     component: Layout,
     redirect: '/dashboard',
     children: [{
@@ -53,7 +66,14 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
+  }
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
 
   {
     path: '/example',

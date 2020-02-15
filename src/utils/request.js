@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  withCredentials: true, // send cookies when cross-domain requests
+  withCredentials: true, // 跨域请求时发送 cookies
   timeout: 5000 // request timeout
 })
 
@@ -14,11 +14,8 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-
     if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
+      // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
       config.headers['X-Token'] = getToken()
     }
     return config
@@ -26,7 +23,7 @@ service.interceptors.request.use(
   error => {
     // do something with request error
     console.log(error) // for debug
-    return Promise.reject(error)
+    Promise.reject(error)
   }
 )
 
@@ -38,9 +35,10 @@ service.interceptors.response.use(
   */
 
   /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
+   * 下面的注释为通过在response里，自定义code来标示请求状态
+   * 当code返回如下情况则说明权限有问题，登出并返回到登录页
+   * 如想通过 XMLHttpRequest 来状态码标识 逻辑可写在下面error中
+   * 以下代码均为样例，请结合自生需求加以修改，若不需要，则可删除
    */
   response => {
     const res = response.data
@@ -55,17 +53,17 @@ service.interceptors.response.use(
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
+        MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', 'Confirm logout', {
+          confirmButtonText: '重新登录',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
-            location.reload()
+            location.reload() // 为了重新实例化vue-router对象 避免bug
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject('error')
     } else {
       return res
     }
