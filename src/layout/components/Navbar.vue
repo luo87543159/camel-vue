@@ -6,6 +6,7 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+        <Notice class="notice-container right-menu-item hover-effect" />
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
 
@@ -40,12 +41,14 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
+import Notice from '@/components/Notice'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    Screenfull
+    Screenfull,
+    Notice
   },
   computed: {
     ...mapGetters([
@@ -90,7 +93,10 @@ export default {
   .breadcrumb-container {
     float: left;
   }
-
+  .notice-container {
+    display: inline-block;
+    vertical-align: top;
+  }
   .right-menu {
     float: right;
     height: 100%;
@@ -102,7 +108,7 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 0 10px;
       height: 100%;
       font-size: 18px;
       color: #5a5e66;
