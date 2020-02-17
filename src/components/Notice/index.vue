@@ -4,7 +4,7 @@
       <svg-icon icon-class="通知" />
     </el-badge>
 
-    <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+    <el-dialog title="收货地址" :visible.sync="dialogTableVisible" :append-to-body="true">
       <el-table :data="gridData">
         <el-table-column property="date" label="日期" width="150" />
         <el-table-column property="name" label="姓名" width="200" />

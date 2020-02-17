@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import systemRouter from './modules/system'
+import ttadbRouter from './modules/ttadb'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -75,6 +76,7 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   systemRouter,
+  ttadbRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

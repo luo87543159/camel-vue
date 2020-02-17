@@ -7,6 +7,7 @@
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <Notice class="notice-container right-menu-item hover-effect" />
+
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
 
@@ -75,7 +76,8 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  border-bottom: 2px solid #f6f6f6;
+  /*box-shadow: 0 1px 4px rgba(0,21,41,.08);*/
 
   .hamburger-container {
     line-height: 46px;
