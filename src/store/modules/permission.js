@@ -2,8 +2,6 @@ import { constantRoutes } from '@/router'
 import Layout from '@/layout'
 import store from '../index'
 
-// const _import = require('@/router/_import_' + process.env.NODE_ENV) // 获取组件的方法
-
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
@@ -76,7 +74,7 @@ const actions = {
     return new Promise(resolve => {
       // 从store/user 中的获取后台提供的路由数据
       const asyncRoutes = store.getters.routers
-      console.log(JSON.stringify(asyncRoutes))
+
       let accessedRoutes
 
       if (roles.includes('admin')) {
