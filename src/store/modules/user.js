@@ -6,7 +6,8 @@ const state = {
   token: getToken(),
   name: '',
   avatar: '',
-  roles: []
+  roles: [],
+  routers: []
 }
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_ROUTERS: (state, routers) => {
+    state.routers = routers
   }
 }
 
@@ -50,16 +54,77 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
+        const routers = [
+          {
+            path: '/nested',
+            component: 'Layout',
+            redirect: '/nested/menu1',
+            name: 'Nested',
+            meta: {
+              title: 'Nested',
+              icon: 'nested'
+            },
+            children: [
+              {
+                path: 'menu1',
+                component: ('/nested/menu1/index'), // Parent router-view
+                name: 'Menu1',
+                meta: { title: 'Menu1' },
+                children: [
+                  {
+                    path: 'menu1-1',
+                    component: ('/nested/menu1/menu1-1'),
+                    name: 'Menu1-1',
+                    meta: { title: 'Menu1-1' }
+                  },
+                  {
+                    path: 'menu1-2',
+                    component: ('/nested/menu1/menu1-2'),
+                    name: 'Menu1-2',
+                    meta: { title: 'Menu1-2' },
+                    children: [
+                      {
+                        path: 'menu1-2-1',
+                        component: ('/nested/menu1/menu1-2/menu1-2-1'),
+                        name: 'Menu1-2-1',
+                        meta: { title: 'Menu1-2-1' }
+                      },
+                      {
+                        path: 'menu1-2-2',
+                        component: ('/nested/menu1/menu1-2/menu1-2-2'),
+                        name: 'Menu1-2-2',
+                        meta: { title: 'Menu1-2-2' }
+                      }
+                    ]
+                  },
+                  {
+                    path: 'menu1-3',
+                    component: ('/nested/menu1/menu1-3'),
+                    name: 'Menu1-3',
+                    meta: { title: 'Menu1-3' }
+                  }
+                ]
+              },
+              {
+                path: 'menu2',
+                component: ('/nested/menu2/index'),
+                meta: { title: 'menu2' }
+              }
+            ]
+          },
+          // 404 page must be placed at the end !!!
+          { path: '*', redirect: '/404', hidden: true }
+        ]
         const { roles, name, avatar } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
-
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_ROUTERS', routers)
         resolve(data)
       }).catch(error => {
         reject(error)
