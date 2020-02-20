@@ -33,7 +33,7 @@ export const formatAsyncRoutes = (asyncRoutes) => {
     }
     accessedRouters.push(tmp)
   })
-
+  accessedRouters.push({ path: '*', redirect: '/404', hidden: true })
   return accessedRouters
 }
 /**
